@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: your-deployment
+  name: my-deployment
 spec:
   replicas: 1
   selector:
@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
       - name: your-container
-        image: guypeeril/llay-home-test:v.1.0
+        image: guypeeril/llay-home-test:v2.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: myregistrykey
 ---
 apiVersion: v1
 kind: Service

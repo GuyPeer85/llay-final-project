@@ -18,7 +18,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker image
-        run: docker pull guypeeril/llay-home-test:v.1.0
+        run: docker pull guypeeril/llay-home-test:v2.0
 
       - name: Run Docker image
-        run: docker run -p 80:80 guypeeril/llay-home-test:v.1.0
+        run: docker run -p 80:80 guypeeril/llay-home-test:v2.0
