@@ -28,7 +28,7 @@ jobs:
       # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
       - name: Create docker image (nginx web server + php-fpm with index.php inside)
         run: |
-         docker bulid -t php-web .
+          docker build . --file Dockerfile --tag php-web
 
       # TODO: 3. Upload the image to the docker registry.
       - name: Upload the image to the docker registry.
