@@ -7,7 +7,7 @@ on:
         - dev
 
 jobs:
-    call-workflow-passing-data:
+    call-workflow-deploy-dev:
       uses: GuyPeer85/testing-github-actions-llay/.github/workflows/CI-CD.yml@dev
       with:
         infa_env: dev

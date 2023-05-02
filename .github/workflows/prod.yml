@@ -1,0 +1,13 @@
+
+# name: prod
+
+# on: workflow_dispatch
+#         branches:
+#         - main
+
+# jobs:
+#     call-workflow-deploy-prod:
+#       uses: GuyPeer85/testing-github-actions-llay/.github/workflows/CI-CD.yml@main
+#       with:
+#         infa_env: prod
+#       secrets: inherit
