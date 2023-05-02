@@ -22,4 +22,4 @@ jobs:
         run: docker pull guypeeril/llay-home-test:v2.0
 
       - name: Run Docker image
-        run: docker run -p 80:80 guypeeril/llay-home-test:v2.0
+        run: docker run -d -p 80:80 guypeeril/llay-home-test:v2.0
