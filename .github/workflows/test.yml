@@ -33,7 +33,7 @@ jobs:
       # TODO: 3. Upload the image to the docker registry.
       - name: Upload the image to the docker registry.
         run: |
-          dokcer images
+          docker images
       
       # # TODO: 4. Pull the image from the docker registry and deploy it to the kubernetes cluster.
       # - name: Pull Docker image
