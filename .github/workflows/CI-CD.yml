@@ -1,0 +1,73 @@
+name: CI-CD
+
+# TODO: 5. For branch develop, the deploy is done automatically on pull request while for
+# branch master the deploy is done by running the workflow manually.
+on:
+  workflow_call:
+    inputs:
+      infa_env:
+        required: true
+        type: string
+    secrets:
+      envPAT:
+        required: true
+        
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        
+    # TODO: 1. Connect to k8s cluster + private docker registry
+      - name: Login to private docker registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        
+      #- name: Connect to k8s cluster
+      #  uses: medyagh/setup-minikube@master
+
+      - name: Install yq
+        run: |
+          sudo add-apt-repository ppa:rmescandon/yq
+          sudo apt update
+          sudo apt install yq -y
+
+      # - name: Try the cluster
+      #   run: kubectl get pods -A
+
+      # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
+      - name: Create docker image (nginx web server + php-fpm with index.php inside)
+        run: |
+          docker build . --file Dockerfile --tag php-web-${{ inputs.infa_env }}
+
+      # TODO: 3. Upload the image to the docker registry.
+      - name: Upload the image to the docker registry.
+        run: |
+          docker push guypeeril/llay-home-test:php-web-${{ inputs.infa_env }}
+
+      
+      # TODO: 4. Pull the image from the docker registry
+      - name: Pull Docker image
+        run: |
+          docker pull guypeeril/llay-home-test:php-web-${{ inputs.infa_env }}
+
+      - name: Replace Image Tag
+        run: |
+          yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
+          mv deployment_new.yaml deployment.yaml    
+
+      # deploy it to the kubernetes cluster
+      - name: Deploy to the kukbernetes
+        run: |
+          cat deployment.yaml
+          
+      # TODO: 6. The workflow should output the application’s service external ip.
+      ################ kubectl apply -f deployment.yaml ########################
+
+       
+
+      # - name: Run Docker image
+      #   run: docker run -d -p 80:80 guypeeril/llay-home-test:v2.0
