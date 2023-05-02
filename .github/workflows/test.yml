@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log in to Docker registry1
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login https://hub.docker.com/repository/docker/guypeeril/llay-home-test/general -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           
       - name: Pull Docker image
         run: docker pull guypeeril/llay-home-test:v2.0
