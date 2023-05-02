@@ -15,7 +15,7 @@ jobs:
           registry: docker.io
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Pull Docker image
         run: docker pull guypeeril/llay-home-test:v2.0
