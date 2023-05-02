@@ -1,0 +1,14 @@
+
+name: dev
+
+on:
+    push:
+        branches:
+        - dev
+
+jobs:
+    call-workflow-passing-data:
+      uses: GuyPeer85/testing-github-actions-llay/.github/workflows/CI-CD.yml@dev
+      with:
+        infa_env: dev
+      secrets: inherit
