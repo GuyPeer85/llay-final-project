@@ -8,9 +8,11 @@ on:
       infa_env:
         required: true
         type: string
-    secrets:
-      envPAT:
-        required: true
+    # secrets:
+    #   username:
+    #     required: true
+    #   password:
+    #     required: true
         
 jobs:
   run:
@@ -34,6 +36,7 @@ jobs:
           sudo add-apt-repository ppa:rmescandon/yq
           sudo apt update
           sudo apt install yq -y
+          echo 
 
       # - name: Try the cluster
       #   run: kubectl get pods -A
