@@ -9,10 +9,9 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Log in to Docker registry1
-        uses: mr-smithers-excellent/docker-build-push@v6
+      - name: Log in to Docker registry
+        uses: docker/login-action@v1
         with:
-          image: guypeeril/llay-home-test:v2.0
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
