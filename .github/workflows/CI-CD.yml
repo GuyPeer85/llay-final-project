@@ -67,17 +67,6 @@ jobs:
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
 
       # deploy it to the kubernetes cluster
-      - name: Deploy to the kukbernetes
-        run: |
-          ls
-          kubectl apply -f deployment.yaml
-          sleep 60
-
-      - name: Try the cluster
-        run: |
-          kubectl get all
-          kubectl get pods -A
-      
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1.3
@@ -86,6 +75,22 @@ jobs:
         run: |
           echo ${{ steps.ip.outputs.ipv4 }}
           echo ${{ steps.ip.outputs.ipv6 }}
+
+      - name: Deploy to the kukbernetes
+        run: |
+          ls
+          kubectl apply -f deployment.yaml
+          sleep 120
+
+      - name: Try the cluster
+        run: |
+          kubectl get all
+          kubectl get pods -A
+      
+      - name: Wait indefinitely until manually stop the workflow
+        run: tail -f /dev/null
+      
+      
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
