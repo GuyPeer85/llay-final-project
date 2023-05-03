@@ -67,12 +67,12 @@ jobs:
       - name: Deploy to the kukbernetes
         run: |
           ls
-          cat depolyment.yaml
+          cat deployment.yaml
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
       ################ kubectl apply -f deployment.yaml ########################
-      #cat depolyment.yaml
+      #cat deployment.yaml
 
        
 
