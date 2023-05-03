@@ -28,8 +28,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Install Helm
-        uses: azure/setup-helm@v3
+      # - name: Install Helm
+      #   uses: azure/setup-helm@v3
         
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.4.0
@@ -55,7 +55,6 @@ jobs:
       # TODO: 3. Upload the image to the docker registry.
       - name: Upload the image to the docker registry.
         run: |
-          docker images
           docker push guypeeril/php-web:${{ inputs.infa_env }}
 
       # TODO: 4. Pull the image from the docker registry
@@ -65,22 +64,16 @@ jobs:
 
       - name: Replace Image Tag11
         run: |
-          docker images
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
-          docker images
-          
+
       # deploy it to the kubernetes cluster
       - name: Deploy to the kukbernetes
         run: |
           ls
-          cat deployment.yaml
+          kubectl apply -f deployment.yaml
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
       ################ kubectl apply -f deployment.yaml ########################
       #cat deployment.yaml
 
-       
-
-      # - name: Run Docker image
-      #   run: docker run -d -p 80:80 guypeeril/llay-home-test:v2.0
