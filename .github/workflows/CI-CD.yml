@@ -57,7 +57,7 @@ jobs:
         run: |
           docker pull guypeeril/php-web:${{ inputs.infa_env }}
 
-      # - name: Replace Image Tag
+      # - name: Replace Image Tag1
       #   run: |
       #     yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
       #     mv deployment_new.yaml deployment.yaml    
