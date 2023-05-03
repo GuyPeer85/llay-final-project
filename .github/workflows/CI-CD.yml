@@ -78,14 +78,12 @@ jobs:
 
       - name: Deploy to the kukbernetes
         run: |
-          ls
           kubectl apply -f deployment.yaml
-          sleep 120
+          kubectl get nodes -o wide
 
       - name: Try the cluster
         run: |
-          kubectl get all
-          kubectl get pods -A
+          kubectl get nodes -o wide
       
       - name: Wait indefinitely until manually stop the workflow
         run: tail -f /dev/null
