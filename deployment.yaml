@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: php-web-image
-        image: guypeeril/php-web:dev
+        image: guypeeril/php-web:${{ inputs.infa_env }}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -26,10 +26,11 @@ kind: Service
 metadata:
   name: service
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 80
     targetPort: 80
     protocol: TCP
+    nodePort: 31000
   selector:
     app: app
