@@ -65,9 +65,10 @@ jobs:
 
       - name: Replace Image Tag11
         run: |
+          docker images
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
-
-        
+          docker images
+          
       # deploy it to the kubernetes cluster
       - name: Deploy to the kukbernetes
         run: |
