@@ -79,6 +79,7 @@ jobs:
       - name: Deploy to the kukbernetes
         run: |
           kubectl apply -f deployment.yaml
+          sleep 120
 
       - name: Try the cluster
         run: |
