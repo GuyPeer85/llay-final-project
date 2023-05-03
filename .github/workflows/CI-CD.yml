@@ -86,7 +86,7 @@ jobs:
 
       - name: Set up Kubernetes config
         run: |
-          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > kubeconfig.yaml
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       
       - name: Deploy to Kubernetes
