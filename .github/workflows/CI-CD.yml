@@ -71,9 +71,13 @@ jobs:
         run: |
           ls
           kubectl apply -f deployment.yaml
+
+      - name: Try the cluster
+        run: |
+          kubectl get all
+          kubectl get pods -A
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
-      ################ kubectl apply -f deployment.yaml ########################
-      #cat deployment.yaml
+      
 
