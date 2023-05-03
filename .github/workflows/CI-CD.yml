@@ -44,7 +44,8 @@ jobs:
       # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
       - name: Create docker image (nginx web server + php-fpm with index.php inside)
         run: |
-          docker build . --file Dockerfile --tag php-web:${{ inputs.infa_env }}
+          docker build --file Dockerfile --tag php-web:${{ inputs.infa_env }} .
+          docker tag php-web:${{ inputs.infa_env }} guypeeril/php-web:${{ inputs.infa_env }}
 
       # TODO: 3. Upload the image to the docker registry.
       - name: Upload the image to the docker registry.
