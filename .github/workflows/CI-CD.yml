@@ -78,10 +78,14 @@ jobs:
           kubectl get all
           kubectl get pods -A
       
-      - name: Show external IP address
+      - name: Public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+      
+      - name: Print Public IP
         run: |
-          EXTERNAL_IP=$(kubectl get service service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-          echo "External IP address: $EXTERNAL_IP"
+          echo ${{ steps.ip.outputs.ipv4 }}
+          echo ${{ steps.ip.outputs.ipv6 }}
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
