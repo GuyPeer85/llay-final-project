@@ -80,7 +80,7 @@ jobs:
         run: |
           VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
           curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-            --location --remote-name --progress
+            --location --remote-name --progress-bar
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/
 
