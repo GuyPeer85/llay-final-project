@@ -66,10 +66,12 @@ jobs:
       # deploy it to the kubernetes cluster
       - name: Deploy to the kukbernetes
         run: |
-          cat deployment.yaml
+          ls
+          
           
       # TODO: 6. The workflow should output the application’s service external ip.
       ################ kubectl apply -f deployment.yaml ########################
+      #cat deployment.yaml
 
        
 
