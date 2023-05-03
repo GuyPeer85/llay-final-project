@@ -42,7 +42,7 @@ jobs:
       #   run: kubectl get pods -A
 
       # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
-      - name: Create docker image (nginx web server + php-fpm with index.php inside)
+      - name: Create & tag docker image (nginx web server + php-fpm with index.php inside)
         run: |
           docker build --file Dockerfile --tag php-web:${{ inputs.infa_env }} .
           docker tag php-web:${{ inputs.infa_env }} guypeeril/php-web:${{ inputs.infa_env }}
@@ -58,15 +58,15 @@ jobs:
         run: |
           docker pull guypeeril/php-web:${{ inputs.infa_env }}
 
-      # - name: Replace Image Tag1
-      #   run: |
-      #     yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
-      #     mv deployment_new.yaml deployment.yaml    
+      - name: Replace Image Tag1
+        run: |
+          yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
+          mv deployment_new.yaml deployment.yaml    
 
-      # # deploy it to the kubernetes cluster
-      # - name: Deploy to the kukbernetes
-      #   run: |
-      #     cat deployment.yaml
+      # deploy it to the kubernetes cluster
+      - name: Deploy to the kukbernetes
+        run: |
+          cat deployment.yaml
           
       # TODO: 6. The workflow should output the application’s service external ip.
       ################ kubectl apply -f deployment.yaml ########################
