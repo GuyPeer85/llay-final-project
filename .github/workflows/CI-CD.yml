@@ -71,11 +71,17 @@ jobs:
         run: |
           ls
           kubectl apply -f deployment.yaml
+          sleep 60
 
       - name: Try the cluster
         run: |
           kubectl get all
           kubectl get pods -A
+      
+      - name: Show external IP address
+        run: |
+          EXTERNAL_IP=$(kubectl get service service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          echo "External IP address: $EXTERNAL_IP"
           
           
       # TODO: 6. The workflow should output the application’s service external ip.
