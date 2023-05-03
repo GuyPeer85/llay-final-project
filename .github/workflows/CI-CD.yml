@@ -84,7 +84,7 @@ jobs:
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/
 
-      - name: Set up Kubernetes config
+      - name: Set up Kubernetes config1
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
           echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
