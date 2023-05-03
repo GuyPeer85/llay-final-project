@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-deployment
+  name: deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: your-app
+      app: app
   template:
     metadata:
       labels:
-        app: your-app
+        app: app
     spec:
       containers:
-      - name: your-container
-        image: guypeeril/llay-home-test:v2.0
+      - name: php-web-image
+        image: guypeeril/php-web:${{ inputs.infa_env }}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: your-service-name
+  name: service
 spec:
   type: LoadBalancer
   ports:
@@ -32,4 +32,4 @@ spec:
     targetPort: 80
     protocol: TCP
   selector:
-    app: your-app
+    app: app
