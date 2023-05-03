@@ -44,28 +44,28 @@ jobs:
       # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
       - name: Create docker image (nginx web server + php-fpm with index.php inside)
         run: |
-          docker build . --file Dockerfile --tag php-web-${{ inputs.infa_env }}
+          docker build . --file Dockerfile --tag php-web:${{ inputs.infa_env }}
 
       # TODO: 3. Upload the image to the docker registry.
       - name: Upload the image to the docker registry.
         run: |
           docker images
-          docker push guypeeril/llay-home-test:php-web-${{ inputs.infa_env }}
+          docker push guypeeril/php-web:${{ inputs.infa_env }}
 
       # TODO: 4. Pull the image from the docker registry
       - name: Pull Docker image
         run: |
-          docker pull guypeeril/llay-home-test:php-web-${{ inputs.infa_env }}
+          docker pull guypeeril/php-web:${{ inputs.infa_env }}
 
-      - name: Replace Image Tag
-        run: |
-          yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
-          mv deployment_new.yaml deployment.yaml    
+      # - name: Replace Image Tag
+      #   run: |
+      #     yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
+      #     mv deployment_new.yaml deployment.yaml    
 
-      # deploy it to the kubernetes cluster
-      - name: Deploy to the kukbernetes
-        run: |
-          cat deployment.yaml
+      # # deploy it to the kubernetes cluster
+      # - name: Deploy to the kukbernetes
+      #   run: |
+      #     cat deployment.yaml
           
       # TODO: 6. The workflow should output the application’s service external ip.
       ################ kubectl apply -f deployment.yaml ########################
