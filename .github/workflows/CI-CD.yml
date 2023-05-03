@@ -62,7 +62,7 @@ jobs:
         run: |
           docker pull guypeeril/php-web:${{ inputs.infa_env }}
 
-      - name: Replace Image Tag11
+      - name: Replace Image Tag
         run: |
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
 
