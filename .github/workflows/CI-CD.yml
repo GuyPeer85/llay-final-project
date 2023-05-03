@@ -75,11 +75,28 @@ jobs:
         run: |
           echo ${{ steps.ip.outputs.ipv4 }}
           echo ${{ steps.ip.outputs.ipv6 }}
+      
+      - name: Set up Kubectl
+        run: |
+          VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+          curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+            --location --remote-name --progress
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/
 
-      - name: Deploy to the kukbernetes
+      - name: Set up Kubernetes config
+        run: |
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > kubeconfig.yaml
+          echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
+      
+      - name: Deploy to Kubernetes
         run: |
           kubectl apply -f deployment.yaml
-          sleep 120
+
+      # - name: Deploy to the kukbernetes
+      #   run: |
+      #     kubectl apply -f deployment.yaml
+      #     sleep 120
 
       - name: Try the cluster
         run: |
