@@ -86,6 +86,9 @@ jobs:
           kubectl get all
           kubectl get pods -A
           kubectl get nodes -o wide
+
+      - name: Check pod logs
+        run: kubectl logs -l app=myapp -c php-web-image
       
       - name: Wait indefinitely until manually stop the workflow
         run: tail -f /dev/null
