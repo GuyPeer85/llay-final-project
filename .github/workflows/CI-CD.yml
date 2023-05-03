@@ -60,8 +60,10 @@ jobs:
 
       - name: Replace Image Tag11
         run: |
-          yq eval '.spec.template.spec.containers[0].image |= sub("php-web-\${}"; "${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
-          mv deployment_new.yaml deployment.yaml    
+          yq eval '.spec.template.spec.containers[0].image |= sub(":.*$"; ":${{ inputs.infa_env }}")' deployment.yaml > deployment_new.yaml
+          mv deployment_new.yaml deployment.yaml
+        
+            
 
       # deploy it to the kubernetes cluster
       - name: Deploy to the kukbernetes
