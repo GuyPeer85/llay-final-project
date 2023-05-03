@@ -31,8 +31,8 @@ jobs:
       # - name: Install Helm
       #   uses: azure/setup-helm@v3
         
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.4.0
+      # - name: Create k8s Kind Cluster
+      #   uses: helm/kind-action@v1.4.0
       #- name: Connect to k8s cluster
       #  uses: medyagh/setup-minikube@master
 
