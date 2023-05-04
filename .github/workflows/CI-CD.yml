@@ -15,7 +15,8 @@ on:
     #     required: true
         
 env:
-  KUBECONFIG: ${{ secret.KUBECONFIG }}
+  KUBE_CONFIG: ${{ secret.KUBE_CONFIG }}
+
 jobs:
   run:
     runs-on: self-hosted
