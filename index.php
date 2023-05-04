@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="center">
-		<h1>Success</h1>
+		<h1>Success!!!</h1>
 	</div>
 </body>
 </html>
