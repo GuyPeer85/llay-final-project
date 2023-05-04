@@ -1,19 +1,13 @@
 name: CI-CD
 
 # TODO: 5. For branch develop, the deploy is done automatically on pull request while for
-# branch master the deploy is done by running the workflow manually.
+#           branch master the deploy is done by running the workflow manually.
 on:
   workflow_call:
     inputs:
       infa_env:
         required: true
-        type: string
-    # secrets:
-    #   username:
-    #     required: true
-    #   password:
-    #     required: true
-        
+        type: string       
 env:
   KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
@@ -30,24 +24,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      # - name: Install Helm
-      #   uses: azure/setup-helm@v3
-        
-      # - name: Create k8s Kind Cluster
-      #   uses: helm/kind-action@v1.4.0
-      #- name: Connect to k8s cluster
-      #  uses: medyagh/setup-minikube@master
-
-      # - name: Install yq
-      #   run: |
-      #     sudo add-apt-repository ppa:rmescandon/yq
-      #     sudo apt update
-      #     sudo apt install yq -y
-      #     echo 
-
-      # - name: Try the cluster
-      #   run: kubectl get pods -A
 
       # TODO: 2. Create docker image (nginx web server + php-fpm with index.php inside)
       - name: Create & tag docker image (nginx web server + php-fpm with index.php inside)
@@ -69,51 +45,16 @@ jobs:
         run: |
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
 
-      # deploy it to the kubernetes cluster
-      # - name: Public IP
-      #   id: ip
-      #   uses: haythem/public-ip@v1.3
-      
-      # - name: Print Public IP
-      #   run: |
-      #     echo ${{ steps.ip.outputs.ipv4 }}
-      #     echo ${{ steps.ip.outputs.ipv6 }}
-      
-      # - name: Set up Kubectl
-      #   run: |
-      #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-      #     curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-      #       --location --remote-name --progress-bar
-      #     chmod +x ./kubectl
-      #     sudo mv ./kubectl /usr/local/bin/
+      - name: Deploy ingress-controller to Kubernetes
+        uses: actions-hub/kubectl@master
+        with:
+          args: apply -f deploy.yaml
 
-      # - name: Set up Kubernetes config
-      #   run: |
-      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
-      #     echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
-      
       - name: Deploy App to Kubernetes
         uses: actions-hub/kubectl@master
         with:
           args: apply -f deployment.yaml
-
-      # - name: Deploy to the kukbernetes
-      #   run: |
-      #     kubectl apply -f deployment.yaml
-      #     sleep 120
-
-      - name: Try the cluster
-        run: |
-          kubectl get all
-          kubectl get pods -A
-          kubectl get nodes -o wide
-      
-      - name: Wait indefinitely until manually stop the workflow
-        run: tail -f /dev/null
-      
-      
-          
-          
+        
       # TODO: 6. The workflow should output the application’s service external ip.
       
 
