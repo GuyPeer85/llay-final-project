@@ -9,12 +9,14 @@
 		  align-items: center;
 		  height: 100vh;
 		}
+		h1 {
+			font-size: 72px;
+		}
 	</style>
 </head>
 <body>
 	<div class="center">
-		<img src="594586957621731699536.jpg" alt="My Image" />
-		<h1>Success!!!</h1>
+		<h1>Success</h1>
 	</div>
 </body>
 </html>
