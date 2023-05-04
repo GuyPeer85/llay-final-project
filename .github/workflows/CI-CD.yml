@@ -95,7 +95,7 @@ jobs:
       - name: Deploy App to Kubernetes
         uses: actions-hub/kubectl@master
         with:
-          args: apply -f llay-project/deployment.yaml
+          args: apply -f deployment.yaml
 
       # - name: Deploy to the kukbernetes
       #   run: |
