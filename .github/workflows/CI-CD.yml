@@ -15,7 +15,7 @@ on:
     #     required: true
         
 env:
-  KUBE_CONFIG: ${{ secret.KUBE_CONFIG }}
+  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
 jobs:
   run:
