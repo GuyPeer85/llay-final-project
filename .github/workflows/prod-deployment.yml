@@ -1,10 +1,10 @@
 
 name: prod
 
-#           branch main the deploy is done by running the workflow manually.
+# branch main the deploy is done by running the workflow manually.
 on: workflow_dispatch
-    branches:
-      - main
+  branches:
+    - main
 
 jobs:
   call-workflow-deploy-prod:

@@ -1,1 +1,0 @@
-DOCKER_REGISTRY_SERVER=docker.io DOCKER_USER="guypeeril" `docker login` DOCKER_EMAIL="guypeer1985@gmail.com" `docker login` DOCKER_PASSWORD="Docker19851103" `docker login`
