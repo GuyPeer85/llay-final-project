@@ -14,9 +14,11 @@ on:
     #   password:
     #     required: true
         
+env:
+  KUBECONFIG: $ {{ secret.KUBECONFIG }}
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -67,70 +69,37 @@ jobs:
           sed -i "s/image: guypeeril\/php-web:.*/image: guypeeril\/php-web:${{ inputs.infa_env }}/" deployment.yaml
 
       # deploy it to the kubernetes cluster
-      - name: Public IP
-        id: ip
-        uses: haythem/public-ip@v1.3
+      # - name: Public IP
+      #   id: ip
+      #   uses: haythem/public-ip@v1.3
       
-      - name: Print Public IP
-        run: |
-          echo ${{ steps.ip.outputs.ipv4 }}
-          echo ${{ steps.ip.outputs.ipv6 }}
+      # - name: Print Public IP
+      #   run: |
+      #     echo ${{ steps.ip.outputs.ipv4 }}
+      #     echo ${{ steps.ip.outputs.ipv6 }}
       
-      - name: Set up Kubectl
-        run: |
-          VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-          curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-            --location --remote-name --progress-bar
-          chmod +x ./kubectl
-          sudo mv ./kubectl /usr/local/bin/
+      # - name: Set up Kubectl
+      #   run: |
+      #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+      #     curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+      #       --location --remote-name --progress-bar
+      #     chmod +x ./kubectl
+      #     sudo mv ./kubectl /usr/local/bin/
 
-      - name: Set up Kubernetes config
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
-          echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
+      # - name: Set up Kubernetes config
+      #   run: |
+      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig.yaml
+      #     echo "KUBECONFIG=$(pwd)/kubeconfig.yaml" >> $GITHUB_ENV
       
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f deployment.yaml
+      - name: Deploy App to Kubernetes
+        uses: actions-hub/kubectl@master
+        with:
+          args: apply -f llay-project/deployment.yaml
 
       # - name: Deploy to the kukbernetes
       #   run: |
       #     kubectl apply -f deployment.yaml
       #     sleep 120
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f deployment.yaml
-
-      # New step: Install ngrok
-      - name: Install ngrok
-        run: |
-          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip ngrok-stable-linux-amd64.zip
-          sudo mv ngrok /usr/local/bin/
-
-      # New step: Expose service using kubectl port-forward
-      - name: Expose service using kubectl port-forward
-        run: |
-          kubectl port-forward service/myservice 8080:80 &
-
-      # New step: Expose local port to the internet using ngrok
-      - name: Expose local port to the internet using ngrok
-        run: |
-          ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
-          ngrok http 8080 > /dev/null &
-
-      # New step: Get the public URL from ngrok
-      - name: Get the public URL from ngrok
-        id: ngrok
-        run: |
-          sleep 5
-          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url' > ngrok_url.txt
-          NGROK_URL=$(cat ngrok_url.txt)
-          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
-
-      - name: Print ngrok public URL
-        run: |
-          echo "ngrok public URL: $NGROK_URL"
 
       - name: Try the cluster
         run: |
@@ -140,5 +109,10 @@ jobs:
       
       - name: Wait indefinitely until manually stop the workflow
         run: tail -f /dev/null
+      
+      
+          
+          
+      # TODO: 6. The workflow should output the application’s service external ip.
       
 
