@@ -32,21 +32,3 @@ spec:
     targetPort: 80
     protocol: TCP
     nodePort: 30080
-
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: myapp-ingress
-# spec:
-#   rules:
-#   - host: my-devops-projects.com
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: service
-#             port:
-#               number: 80
