@@ -44,6 +44,10 @@ jobs:
         run: |
           cat /home/master/.kube/config
 
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+
       - name: Deploy App to Kubernetes
         uses: actions-hub/kubectl@master
         with:
