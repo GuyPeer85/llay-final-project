@@ -8,6 +8,8 @@ on:
       infa_env:
         required: true
         type: string       
+env:
+  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
 jobs:
   run:
