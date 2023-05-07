@@ -43,6 +43,7 @@ jobs:
       - name: check ip
         run: |
           cat /home/master/.kube/config
+          echo "The value of MY_SECRET is $KUBE_CONFIG"
 
       - uses: actions-hub/kubectl@master
         env:
