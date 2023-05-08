@@ -39,11 +39,7 @@ jobs:
       - name: Pull Docker image
         run: |
           docker pull guypeeril/php-web:${{ inputs.infa_env }}
-      
-      - name: check ip
-        run: |
-          cat /home/master/.kube/config
-          echo "The value of MY_SECRET is $KUBE_CONFIG"
+
 
       - uses: actions-hub/kubectl@master
         env:
@@ -55,5 +51,5 @@ jobs:
           args: apply -f deployment.yaml
       
       # TODO: 6. The workflow should output the application’s service external ip
-      # using metallb configmap to make external ip on load balancer ..
+      # using metallb configmap to make external ip on load balancer ...
 
