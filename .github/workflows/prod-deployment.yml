@@ -4,12 +4,12 @@ name: prod
 # branch main the deploy is done by running the workflow manually.
 on: 
   workflow_dispatch:
-    branches:
+      branches:
       - main
 
 jobs:
   call-workflow-deploy-prod:
-    uses: GuyPeer85/testing-github-actions-llay/.github/workflows/CI-CD.yml@main
+    uses: GuyPeer85/llay-final-project/.github/workflows/CI-CD.yml@main
     with:
       infa_env: prod
     secrets: inherit

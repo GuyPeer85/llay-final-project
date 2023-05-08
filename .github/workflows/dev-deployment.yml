@@ -8,7 +8,7 @@ on:
 
 jobs:
     call-workflow-deploy-dev:
-      uses: GuyPeer85/testing-github-actions-llay/.github/workflows/CI-CD.yml@dev
+      uses: GuyPeer85/llay-final-project/.github/workflows/CI-CD.yml@dev
       with:
         infa_env: dev
       secrets: inherit
