@@ -51,5 +51,5 @@ jobs:
           args: apply -f deployment.yaml
       
       # TODO: 6. The workflow should output the application’s service external ip
-      # using metallb configmap to make external ip on load balancer ....
+      # using metallb configmap to make external ip on load balancer ..
 
